@@ -1,5 +1,7 @@
 # Movie API Coding Challenge 🍿
 
+![Alt Text](https://imgur.com/aROL62h)
+
 #### Link to Deployed Project: https://sayf-movieapi.herokuapp.com/
 
 #### Goals of this Project:
