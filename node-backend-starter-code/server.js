@@ -13,12 +13,14 @@ app.use(bodyParser.json());
 
 app.use('/', express.static(path.join(__dirname, 'public')));
 
+// favorites are requested upon index.html loading
 app.get('/favorites', function(req, res){
   var data = fs.readFileSync('./data.json');
   res.setHeader('Content-Type', 'application/json');
   res.send(data);
 });
 
+// Information
 app.get('/favorites/:name', function(req, res){
   var movieTitle = req.params.name
   
@@ -34,23 +36,23 @@ app.get('/favorites/:name', function(req, res){
   res.redirect('/')
 })
 
-app.get('/details/:name', function(req,res) {
-  var movieTitle = req.params.name
+// app.get('/details/:name', function(req,res) {
+//   var movieTitle = req.params.name
 
-  // var data = axios
-  //   .get(`http://www.omdbapi.com/?apikey=298232f2&t=${movieTitle}`)
-  //   .then(function(response) {
-  //     var movieResults = JSON.parse(response)
-  //     console.log(movieResults)
-  //     res.render(movieResults)
-  //   })
-  //   .catch(error => {
-  //     console.log('error!')
-  //     console.error(error)
-  //   })
+//   // var data = axios
+//   //   .get(`http://www.omdbapi.com/?apikey=298232f2&t=${movieTitle}`)
+//   //   .then(function(response) {
+//   //     var movieResults = JSON.parse(response)
+//   //     console.log(movieResults)
+//   //     res.render(movieResults)
+//   //   })
+//   //   .catch(error => {
+//   //     console.log('error!')
+//   //     console.error(error)
+//   //   })
 
-  // res.send(data)
-})
+//   // res.send(data)
+// })
 
 app.listen(3000, function(){
   console.log("Listening on port 3000")
