@@ -7,23 +7,110 @@
     body {
       text-align: center;
     }
+
+    .container {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    section {
+    }
+
+    #rightpanel {
+      width: 30%;
+    }
   </style>
   <title>Movie Search</title>
 </head>
 <body>
-  <h1>Welcome to MoviesDB!</h1>
-
-  <!-- Main Form -->
-  <div class="main-panel">
-    <label for="">Find A Movie: </label><br>
-    <input type="text" name="" id="user-input"><br>
-    <button id="submit">Search</button>
-  </div><br>
-
-  <a href="" id="favorites">Favorites</a>
   
-  <script>
+  
+  <!-- Left Third -->
+  <main class="container">
+    <section id="leftpanel">
+      <h1>Welcome to MoviesDB!</h1>
+      <!-- Main Form -->
+      <div>
+        <form action="/movie_results" method="get">
+          <label for="">Find A Movie: </label><br>
+          <input style="width: 250px;" type="text" name="" id="user-input"><br>
+          <button id="submit">Search</button>
+        </form>
+      </div><br>
+    
+    </section>
+  
+  <!-- Middle Third -->
+    <section id="midpanel">
+      <!-- Movie Results -->
+      <div id="results">
+      </div>
+    </section>
+  
+  <!-- Right Third -->
+  <!-- View Favorites -->
+    <section id="rightpanel">
+      <h1>Your Favorites!</h1>
+      <div id="favorites"></div>
+    </section>  
+  </main>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+  <script>
+    const button = document.getElementById('submit')
+
+    // When search button is clicked, send request to OmdbAPI
+    button.addEventListener('click', function(event) {
+      event.preventDefault()
+
+      const search = document.getElementById('user-input').value
+      
+      axios
+        .get(`http://www.omdbapi.com/?apikey=298232f2&s=${search}`)
+        .then(function(response) {
+
+          // Create an element to append (1) Title and (2) Link to Result-Div
+          var movie_results = response.data.Search
+          var resultDiv = document.getElementById('results')
+          
+          // Iterate through each movie title 
+          movie_results.forEach(function(movie) {
+            var resultTitle = document.createElement('p')
+            var resultLink = document.createElement('a')
+            var addToFavorites = document.createElement('a')
+
+
+            resultTitle.textContent = movie.Title
+            resultLink.textContent = ' ℹ Details      '
+            resultLink.href = `http://www.omdbapi.com/?apikey=298232f2&t=${movie.Title}`
+            addToFavorites.textContent = '    ⭐️ Add To Favorites '
+            addToFavorites.href = `/favorites/${movie.Title}`
+
+
+            resultDiv.append(resultTitle)
+            resultDiv.append(resultLink)
+            resultDiv.append(addToFavorites)
+          })
+        })
+    })
+
+    getData()
+
+    async function getData() {
+      const response = await fetch('/favorites')
+      const data = await response.json()
+      
+      var favDiv = document.getElementById('favorites')
+
+      data.forEach(function(movie) {
+        storedElement = document.createElement('a')
+        storedElement.textContent = `    🍿 ${movie} `
+        storedElement.href = `#`
+
+        favDiv.append(storedElement)
+      })
+      console.log(data)
+    }
   </script>
 </body>
 </html>

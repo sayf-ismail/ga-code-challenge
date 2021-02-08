@@ -4,6 +4,8 @@ var fs = require('fs');
 var path = require('path');
 var bodyParser = require('body-parser')
 
+
+// Mount the middleware
 app.use(express.static(path.join(__dirname, '/public')));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
@@ -16,17 +18,20 @@ app.get('/favorites', function(req, res){
   res.send(data);
 });
 
-app.get('/favorites', function(req, res){
-  if(!req.body.name || !req.body.oid){
-    res.send("Error");
-    return
-  }
-  var data = JSON.parse(fs.readFileSync('./data.json'));
-  data.push(req.body);
-  fs.writeFile('./data.json', JSON.stringify(data));
-  res.setHeader('Content-Type', 'application/json');
-  res.send(data);
-});
+app.get('/favorites/:name', function(req, res){
+  movieTitle = req.params.name
+  
+  var data = fs.readFileSync('./data.json')
+  var words = JSON.parse(data)
+  words.push(movieTitle)
+  var favMovieList = JSON.stringify(words)
+  console.log(favMovieList)
+  fs.writeFile('./data.json', favMovieList, (err) => {
+    if (err) throw err;
+    console.log('The file has been saved!');
+  })
+  res.redirect('/')
+})
 
 app.listen(3000, function(){
   console.log("Listening on port 3000")
