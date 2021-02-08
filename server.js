@@ -3,8 +3,7 @@ var app = express();
 var fs = require('fs');
 var path = require('path');
 var bodyParser = require('body-parser');
-var axios = require('axios');
-
+const port = process.env.PORT || 3001;
 
 // Mount the middleware
 app.use(express.static(path.join(__dirname, '/public')));
@@ -36,24 +35,6 @@ app.get('/favorites/:name', function(req, res){
   res.redirect('/')
 })
 
-// app.get('/details/:name', function(req,res) {
-//   var movieTitle = req.params.name
-
-//   // var data = axios
-//   //   .get(`http://www.omdbapi.com/?apikey=298232f2&t=${movieTitle}`)
-//   //   .then(function(response) {
-//   //     var movieResults = JSON.parse(response)
-//   //     console.log(movieResults)
-//   //     res.render(movieResults)
-//   //   })
-//   //   .catch(error => {
-//   //     console.log('error!')
-//   //     console.error(error)
-//   //   })
-
-//   // res.send(data)
-// })
-
-app.listen(3000, function(){
-  console.log("Listening on port 3000")
+app.listen(port, function(){
+  console.log(`Listening on port: ${port}`)
 });

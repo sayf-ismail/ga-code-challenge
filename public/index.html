@@ -108,6 +108,7 @@
             addToFavorites.textContent = '    ⭐️ Add To Favorites '
             addToFavorites.href = `/favorites/${movie.Title}`
             
+            // Button for more movie Details
             btn.addEventListener('click', function(event) {
               axios
               .get(movieURL)
@@ -143,6 +144,7 @@
         })
     })
 
+    // Favorites Section uses Promises
     getData()
 
     async function getData() {
