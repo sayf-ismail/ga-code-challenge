@@ -1,6 +1,6 @@
 # Movie API Coding Challenge 🍿
 
-#### Link to Deployed Project: X
+#### Link to Deployed Project: https://sayf-movieapi.herokuapp.com/
 
 #### Goals of this Project:
 - Create a Single-Page Application that allows users to search for movies.
