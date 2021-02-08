@@ -2,7 +2,8 @@ var express = require('express');
 var app = express();
 var fs = require('fs');
 var path = require('path');
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
+var axios = require('axios');
 
 
 // Mount the middleware
@@ -19,7 +20,7 @@ app.get('/favorites', function(req, res){
 });
 
 app.get('/favorites/:name', function(req, res){
-  movieTitle = req.params.name
+  var movieTitle = req.params.name
   
   var data = fs.readFileSync('./data.json')
   var words = JSON.parse(data)
@@ -31,6 +32,24 @@ app.get('/favorites/:name', function(req, res){
     console.log('The file has been saved!');
   })
   res.redirect('/')
+})
+
+app.get('/details/:name', function(req,res) {
+  var movieTitle = req.params.name
+
+  // var data = axios
+  //   .get(`http://www.omdbapi.com/?apikey=298232f2&t=${movieTitle}`)
+  //   .then(function(response) {
+  //     var movieResults = JSON.parse(response)
+  //     console.log(movieResults)
+  //     res.render(movieResults)
+  //   })
+  //   .catch(error => {
+  //     console.log('error!')
+  //     console.error(error)
+  //   })
+
+  // res.send(data)
 })
 
 app.listen(3000, function(){

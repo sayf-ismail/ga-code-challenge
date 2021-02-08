@@ -3,56 +3,59 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <title>Movie Search</title>
   <style>
-    body {
-      text-align: center;
+    #submit {
+      margin-top: 10px;
+    }
+
+    #midpanel {
+      border: 1px solid;
     }
 
     .container {
-      display: flex;
-      justify-content: space-between;
+      text-align: center;
     }
 
-    section {
-    }
-
-    #rightpanel {
-      width: 30%;
-    }
   </style>
-  <title>Movie Search</title>
 </head>
 <body>
   
   
   <!-- Left Third -->
   <main class="container">
-    <section id="leftpanel">
-      <h1>Welcome to MoviesDB!</h1>
-      <!-- Main Form -->
-      <div>
+    <div class="row">
+      <section class="col-md" id="leftpanel">
+        <h1>Welcome to MoviesDB!</h1>
+        <!-- Main Form -->
         <form action="/movie_results" method="get">
-          <label for="">Find A Movie: </label><br>
-          <input style="width: 250px;" type="text" name="" id="user-input"><br>
-          <button id="submit">Search</button>
+          <div class="mb-3">
+            <label class="form-label" for="">Find A Movie: </label><br>
+            <input style="width: 250px;" type="text" name="" id="user-input"><br>
+            <button id="submit" class="btn btn-primary">Search</button>
+          </div>
         </form>
-      </div><br>
+        <br>
+        <h1>Movie Details</h1>
+        <div id="moviedetails"></div>
+      </section>
     
-    </section>
-  
-  <!-- Middle Third -->
-    <section id="midpanel">
-      <!-- Movie Results -->
-      <div id="results">
-      </div>
-    </section>
-  
-  <!-- Right Third -->
-  <!-- View Favorites -->
-    <section id="rightpanel">
-      <h1>Your Favorites!</h1>
-      <div id="favorites"></div>
-    </section>  
+    <!-- Middle Third -->
+      <section class="col-md" id="midpanel">
+        <h1>Search Results</h1>
+        <!-- Movie Results -->
+        <div id="results">
+        </div>
+      </section>
+    
+    <!-- Right Third -->
+    <!-- View Favorites -->
+      <section class="col-md" id="rightpanel">
+        <h1>Your Favorites!</h1>
+        <div id="favorites"></div>
+      </section>  
+    </div>
   </main>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
@@ -72,24 +75,52 @@
           // Create an element to append (1) Title and (2) Link to Result-Div
           var movie_results = response.data.Search
           var resultDiv = document.getElementById('results')
+          var movieDetails = document.getElementById('moviedetails')
           
           // Iterate through each movie title 
           movie_results.forEach(function(movie) {
             var resultTitle = document.createElement('p')
-            var resultLink = document.createElement('a')
             var addToFavorites = document.createElement('a')
-
-
+            
+            var btn = document.createElement("BUTTON");
+            btn.textContent = 'Details ℹ'
+            btn.className = 'detailbtn btn btn-primary'
             resultTitle.textContent = movie.Title
-            resultLink.textContent = ' ℹ Details      '
-            resultLink.href = `http://www.omdbapi.com/?apikey=298232f2&t=${movie.Title}`
+            var movieURL = `http://www.omdbapi.com/?apikey=298232f2&t=${movie.Title}`
             addToFavorites.textContent = '    ⭐️ Add To Favorites '
             addToFavorites.href = `/favorites/${movie.Title}`
+            
+            btn.addEventListener('click', function(event) {
+              axios
+              .get(movieURL)
+              .then(function(resp){
+                var movieItem = resp.data 
+                var movieTitle = document.createElement('h3')
+                  var movieActors = document.createElement('p')
+                  var moviePlot = document.createElement('p')
+                  var movieDirector = document.createElement('p')
+                  var moviePoster = document.createElement('img')
+                  var hr = document.createElement('hr')
+                  
+                  movieTitle.textContent = movieItem.Title
+                  movieTitle.className = 'display-5'
+                  movieActors.textContent = 'Actors: ' + movieItem.Actors
+                  movieDirector.textContent = 'Director: ' + movieItem.Director
+                  moviePlot.textContent = 'Plot: ' + movieItem.Plot
+                  moviePoster.src = movieItem.Poster
 
+                  movieDetails.append(movieTitle)
+                  movieDetails.append(moviePoster)
+                  movieDetails.append(movieDirector)
+                  movieDetails.append(movieActors)
+                  movieDetails.append(moviePlot)
+                  movieDetails.append(moviePlot)
+                })
+            })
 
             resultDiv.append(resultTitle)
-            resultDiv.append(resultLink)
             resultDiv.append(addToFavorites)
+            resultDiv.append(btn)
           })
         })
     })
@@ -103,13 +134,11 @@
       var favDiv = document.getElementById('favorites')
 
       data.forEach(function(movie) {
-        storedElement = document.createElement('a')
+        storedElement = document.createElement('p')
         storedElement.textContent = `    🍿 ${movie} `
-        storedElement.href = `#`
 
         favDiv.append(storedElement)
       })
-      console.log(data)
     }
   </script>
 </body>
