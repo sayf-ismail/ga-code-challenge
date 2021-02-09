@@ -87,7 +87,7 @@
       const search = document.getElementById('user-input').value
       
       axios
-        .get(`http://www.omdbapi.com/?apikey=298232f2&s=${search}`)
+        .get(`https://www.omdbapi.com/?apikey=298232f2&s=${search}`)
         .then(function(response) {
 
           // Create an element to append (1) Title and (2) Link to Result-Div
@@ -104,7 +104,7 @@
             btn.textContent = 'Details ℹ'
             btn.className = 'detailbtn btn btn-primary'
             resultTitle.textContent = movie.Title
-            var movieURL = `http://www.omdbapi.com/?apikey=298232f2&t=${movie.Title}`
+            var movieURL = `https://www.omdbapi.com/?apikey=298232f2&t=${movie.Title}`
             addToFavorites.textContent = '    ⭐️ Add To Favorites '
             addToFavorites.href = `/favorites/${movie.Title}`
             

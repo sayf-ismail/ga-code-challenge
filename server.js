@@ -17,7 +17,7 @@ app.get('/favorites', function(req, res){
   res.send(data);
 });
 
-// Information
+// Information request from client
 app.get('/favorites/:name', function(req, res){
   var movieTitle = req.params.name
   
