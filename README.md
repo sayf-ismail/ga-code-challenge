@@ -1,6 +1,6 @@
 # Movie API Coding Challenge 🍿
 
-![Alt Text](https://imgur.com/aROL62h)
+![App Demo](https://media.giphy.com/media/UbAvqd8fQnt7T7uRU5/giphy.gif)
 
 #### Link to Deployed Project: https://sayf-movieapi.herokuapp.com/
 
