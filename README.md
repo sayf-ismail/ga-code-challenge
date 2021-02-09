@@ -13,5 +13,6 @@
 #### Technologies used:
 - HTML / Javascript / Node.js
 - Axios / Bootstrap
+- Use of OMDB API
 
 #### Stage of Project: ***Completed***
